@@ -2,18 +2,17 @@
 Flask server run
 """
 import os
+import pprint
 import threading
-
 from pathlib import Path
+from random import randrange
 
 from flask_script import Manager, prompt_bool
 from waitress import serve
 
-from random import randrange
-
 from pyqtt_application.app import create_app, db
-from pyqtt_application.sql_logger import record_messages
 from pyqtt_application.models.messages_models import Message
+from pyqtt_application.sql_logger import record_messages
 
 app = create_app()
 # app.app_context().push()
@@ -22,6 +21,7 @@ manager = Manager(
     with_default_commands=False
 )
 db_manager = Manager(usage="Database operations (create, drop, recreate)")
+dev_manager = Manager(usage="Development operations.")
 
 
 @db_manager.command
@@ -61,7 +61,7 @@ def populate():
 
 
 @manager.command
-def run(host, port, topic):
+def runserver(host, port, topic):
     """
     Start recording messages from the MQTT broker and the server at the same time.
     """
@@ -78,8 +78,29 @@ def run(host, port, topic):
     serve(app, port=8080)
 
 
-@manager.command
-def run_dev():
+@dev_manager.command
+def show():
+    """
+    Show all available endpoints of the application.
+
+    """
+    routes = list(app.url_map.iter_rules())
+
+    found_routes = dict()
+    pretty_printer = pprint.PrettyPrinter(indent=4)
+
+    for index, route in enumerate(routes):
+        found_routes[index + 1] = dict(
+            name=route.endpoint,
+            route=str(route),
+            methods=[method for method in route.methods],
+        )
+
+    pretty_printer.pprint(found_routes)
+
+
+@dev_manager.command
+def run():
     """
     Start the server on development mode.
     """
@@ -114,4 +135,5 @@ def run_dev():
 
 if __name__ == "__main__":
     manager.add_command('db', db_manager)
+    manager.add_command('dev', dev_manager)
     manager.run()

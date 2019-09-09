@@ -42,7 +42,13 @@ There are several way to run the application depending on how you want to run th
     
 - Run the server on development mode.
 
-  `manage.py run_dev`
+  - Development mode.
+    
+    `manage.py dev run`
+  
+  - Production mode.
+  
+    `manage.py runserver`
 
 ### Running it on Docker
 
