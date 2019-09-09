@@ -14,7 +14,8 @@ api = Api(
     version='0.1',
     description='Python MQTT logger and viewer',
     doc='/docs',
-    prefix='/api/v1'
+    prefix='/api/v1',
+    ordered=True
 )
 # Database
 db = SQLAlchemy()

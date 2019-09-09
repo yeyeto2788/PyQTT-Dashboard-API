@@ -60,3 +60,28 @@ class MessageController:
         message = Message.query.filter_by(id=message_id).first()
         db.session.delete(message)
         db.session.commit()
+
+    @staticmethod
+    def add_message(id, topic, message, client_data=None, user_data=None):
+        """
+
+        Args:
+            id:
+            topic:
+            message:
+            client_data:
+            user_data:
+
+        Returns:
+
+        """
+        message_obj = Message(
+            id=id,
+            topic=topic,
+            message=message,
+            client_data=client_data,
+            user_data=user_data
+        )
+
+        db.session.add(message_obj)
+        db.session.comit()

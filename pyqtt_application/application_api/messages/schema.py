@@ -15,20 +15,43 @@ class MessageSchema(BaseSchema):
     model_name = 'Message operations'
 
     model = MESSAGE_NS.model(
-        'Message',
-        {
-            'data':
-                {
-                    'id': fields.Integer(),
-                    'topic': fields.String(),
-                    'message': fields.String(),
-                    'datetime': fields.DateTime(),
-                    'client': fields.String(),
-                    'user_data': fields.String(),
-                }
-        }
+        name='Message',
+        model=dict(
+            data={
+                'id': fields.Integer(),
+                'topic': fields.String(),
+                'message': fields.String(),
+                'datetime': fields.DateTime(),
+                'client': fields.String(),
+                'user_data': fields.String(),
+            }
+        )
     )
 
+
+    get_params = {
+        'message_id': dict(
+            type=fields.Integer(),
+            help="Id of the message to retrieve (If -1 will return last).")
+    }
+
     delete_params = {
-        'id': fields.Integer()
+        'message_id': dict(
+            type=fields.Integer(),
+            help="Id of the message to delete.")
+    }
+
+    put_params = {
+        'id': dict(
+            type=fields.Integer(),
+            help="Id of the message to be added."
+        ),
+        'topic': dict(
+            type=fields.String(),
+            help="Topic to be added."
+        ),
+        'message': dict(
+            type=fields.String(),
+            help="Message."
+        ),
     }

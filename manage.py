@@ -86,7 +86,7 @@ def run_dev():
 
     db_path = Path(Path.cwd() / 'dev_test.db').absolute()
     db_existence = "exists" if db_path.exists() else "doesn't exists"
-    msg = f"The database '{db_path}' \n{db_existence}, want to create it?"
+    msg = f"The database '{db_path}' \n{db_existence}, want to recreate it?"
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + str(db_path)
     app.config['ENV'] = 'development'
@@ -95,12 +95,13 @@ def run_dev():
     if prompt_bool(msg):
 
         if not os.path.exists(db_path):
-            db.create_all()
+            create()
+            populate()
 
-    msg = f"Want to populate the db?"
-
-    if prompt_bool(msg):
-        populate()
+        else:
+            drop()
+            create()
+            populate()
 
     record_options = dict(
         host='iot.eclipse.org',
