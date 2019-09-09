@@ -10,8 +10,8 @@ pylint.out
 
 # Setup distribution files
 dist/*
-
 .cache
+
 # IDE files
 .idea
 .vscode
@@ -20,11 +20,13 @@ dist/*
 venv
 /venv/*
 
-
 # Other files
 *.pyc
 *.egg-info*
 .pre-commit-config.yaml
 /demo/file_examples
+
+# Temp files
+temp/*
 tmp
 tmp/*

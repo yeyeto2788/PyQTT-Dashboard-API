@@ -18,9 +18,31 @@ There are several way to run the application depending on how you want to run th
 
 ### Running it on a local machine
 
-- Local machine step 1
-- Local machine step 2
-- Local machine step 3
+- Clone this repository.
+
+  `git clone https://github.com/yeyeto2788/PyQTT-Dashboard-API.git`
+    
+- Create a virtual environment.
+
+  `python3 -m virtualenv venv`
+    
+- Activate the virtual environment.
+
+  - Linux: `source ./bin/activate` 
+  
+  - Windows: `.\venv\Scripts\activate`
+    
+- Install required dependencies.
+
+  `pip install -r requirements.txt`
+    
+- Create the database.
+
+  `manage.py db create`
+    
+- Run the server on development mode.
+
+  `manage.py run_dev`
 
 ### Running it on Docker
 
