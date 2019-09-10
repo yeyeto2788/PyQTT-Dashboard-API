@@ -19,7 +19,10 @@ class Message(db.Model):
     user_data = db.Column(db.String)
 
     def __repr__(self):
-        return '<Message:  %r>' % self.message
+        return '<{class_name}:  {message}>'.format(
+            class_name=self.__class__.__name__,
+            message=self.message
+        )
 
     def serialize(self):
         serialized = OrderedDict()

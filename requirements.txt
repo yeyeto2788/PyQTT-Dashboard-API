@@ -6,3 +6,4 @@ Flask-Script==2.0.6
 flask-restplus==0.13.0
 flask-bcrypt==0.7.1
 SQLAlchemy-Utils==0.34.2
+Flask-JWT==0.3.2

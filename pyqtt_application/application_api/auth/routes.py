@@ -1,7 +1,10 @@
+from flask import request
+
 from pyqtt_application.application_api.auth import AUTH_NS
 from pyqtt_application.application_api.auth.controller import AuthController
-from pyqtt_application.common.base_routes import BaseResource
 from pyqtt_application.application_api.auth.schema import AuthSchema
+from pyqtt_application.common.base_routes import BaseResource
+from pyqtt_application.common.http_responses import HTTPResponse
 
 
 @AUTH_NS.route('/login')
@@ -20,13 +23,19 @@ class LoginAPI(BaseResource):
     @namespace.response(code=404, description='No content response.')
     @namespace.response(code=400, description='Unexpected error.')
     def post(self):
-        # TODO: get the post data
-        data = dict(
-            email="test@test.com",
-            password="1234"
-        )
-        response = AuthController.login_user(data)
-        return response
+
+        post_data = request.json
+
+        response = AuthController.login_user(post_data)
+
+        if isinstance(response, HTTPResponse):
+
+            return response
+
+        else:
+            data = dict(token=response)
+
+            return HTTPResponse.http_200_ok(data=data, model=self._model)
 
 
 @AUTH_NS.route('/logout')
@@ -46,10 +55,15 @@ class LogoutAPI(BaseResource):
     @namespace.response(code=404, description='No content response.')
     @namespace.response(code=400, description='Unexpected error.')
     def post(self):
-        # TODO: get auth token
-        data = dict(
-            email="test@test.com",
-            password="1234"
-        )
-        response = AuthController.logout_user(data)
-        return 200, response
+        auth_header = request.headers.get('Authorization')
+
+        response = AuthController.logout_user(auth_header)
+
+        if isinstance(response, HTTPResponse):
+
+            return response
+
+        else:
+            data = dict(token=response)
+
+            return HTTPResponse.http_200_ok(data=data, model=self._model)

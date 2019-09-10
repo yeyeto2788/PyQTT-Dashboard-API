@@ -2,6 +2,7 @@
 All logic related to messages operation so this is executed
 outside of the routes definition.
 """
+from pyqtt_application.common.http_responses import HTTPResponse
 from pyqtt_application.extensions import db
 from pyqtt_application.models.messages_models import Message
 
@@ -58,8 +59,15 @@ class MessageController:
 
         """
         message = Message.query.filter_by(id=message_id).first()
-        db.session.delete(message)
-        db.session.commit()
+
+        if message:
+            db.session.delete(message)
+            db.session.commit()
+
+            return message
+
+        else:
+            return HTTPResponse.http_404_not_found()
 
     @staticmethod
     def add_message(id, topic, message, client_data=None, user_data=None):
@@ -75,13 +83,16 @@ class MessageController:
         Returns:
 
         """
+
         message_obj = Message(
             id=id,
             topic=topic,
             message=message,
-            client_data=client_data,
+            client=client_data,
             user_data=user_data
         )
 
         db.session.add(message_obj)
-        db.session.comit()
+        db.session.commit()
+
+        return message_obj

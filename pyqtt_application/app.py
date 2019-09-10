@@ -3,8 +3,9 @@
 """
 from flask import Flask
 
-from pyqtt_application.application_api.messages.routes import MESSAGE_NS
 from pyqtt_application.application_api.auth.routes import AUTH_NS
+from pyqtt_application.application_api.messages.routes import MESSAGE_NS
+from pyqtt_application.application_api.users.routes import USER_NS
 from pyqtt_application.extensions import db, api
 from pyqtt_application.web_application.messages.messages_blueprint import message_bp
 from pyqtt_application.web_application.settings.setting_blueprint import settings_bp
@@ -62,3 +63,4 @@ def configure_api(app: Flask):
     api.init_app(app)
     api.add_namespace(AUTH_NS, path='/auth')
     api.add_namespace(MESSAGE_NS, path='/messages')
+    api.add_namespace(USER_NS, path='/users')

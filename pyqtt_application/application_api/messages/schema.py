@@ -16,18 +16,15 @@ class MessageSchema(BaseSchema):
 
     model = MESSAGE_NS.model(
         name='Message',
-        model=dict(
-            data={
-                'id': fields.Integer(),
-                'topic': fields.String(),
-                'message': fields.String(),
-                'datetime': fields.DateTime(),
-                'client': fields.String(),
-                'user_data': fields.String(),
-            }
-        )
+        model={
+            'id': fields.Integer(),
+            'topic': fields.String(),
+            'message': fields.String(),
+            'datetime': fields.DateTime(),
+            'client': fields.String(),
+            'user_data': fields.String(),
+        },
     )
-
 
     get_params = {
         'message_id': dict(
@@ -41,7 +38,7 @@ class MessageSchema(BaseSchema):
             help="Id of the message to delete.")
     }
 
-    put_params = {
+    post_params = {
         'id': dict(
             type=fields.Integer(),
             help="Id of the message to be added."

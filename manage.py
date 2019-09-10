@@ -12,6 +12,7 @@ from waitress import serve
 
 from pyqtt_application.app import create_app, db
 from pyqtt_application.models.messages_models import Message
+from pyqtt_application.models.tokenblacklist_models import BlacklistToken
 from pyqtt_application.sql_logger import record_messages
 
 app = create_app()
@@ -22,6 +23,11 @@ manager = Manager(
 )
 db_manager = Manager(usage="Database operations (create, drop, recreate)")
 dev_manager = Manager(usage="Development operations.")
+
+
+def first_run_actions():
+    app.app_context().push()
+    db.session.query(BlacklistToken).delete()
 
 
 @db_manager.command
@@ -75,7 +81,7 @@ def runserver(host, port, topic):
     record_thread = threading.Thread(target=record_messages, kwargs=record_options, daemon=True)
 
     record_thread.start()
-    serve(app, port=8080)
+    serve(app, port=os.getenv('APP_PORT', 8080))
 
 
 @dev_manager.command
@@ -115,14 +121,13 @@ def run():
 
     if prompt_bool(msg):
 
-        if not os.path.exists(db_path):
-            create()
-            populate()
-
+        if os.path.exists(db_path):
+            os.remove(db_path)
         else:
             drop()
-            create()
-            populate()
+
+    create()
+    populate()
 
     record_options = dict(
         host='iot.eclipse.org',

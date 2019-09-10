@@ -1,3 +1,4 @@
+from pyqtt_application.common.http_responses import HTTPResponse
 from pyqtt_application.extensions import db
 from pyqtt_application.models.tokenblacklist_models import BlacklistToken
 from pyqtt_application.models.users_models import User
@@ -10,18 +11,12 @@ def save_token(token):
         # insert the token
         db.session.add(blacklist_token)
         db.session.commit()
-        response_object = {
-            'status': 'success',
-            'message': 'Successfully logged out.'
-        }
-        return response_object, 200
 
-    except Exception as exec_error:
-        response_object = {
-            'status': 'fail',
-            'message': exec_error
-        }
-        return response_object, 200
+        return blacklist_token
+
+    except Exception:
+
+        return HTTPResponse.http_500_unexpected()
 
 
 class AuthController:
@@ -37,29 +32,15 @@ class AuthController:
                 auth_token = User.encode_auth_token(user.id)
 
                 if auth_token:
-                    response_object = {
-                        'status': 'success',
-                        'message': 'Successfully logged in.',
-                        'Authorization': auth_token.decode()
-                    }
-
-                    return response_object, 200
+                    return auth_token
 
             else:
-                response_object = {
-                    'status': 'fail',
-                    'message': 'email or password does not match.'
-                }
 
-                return response_object, 401
+                return HTTPResponse.http_401_unauthorized()
 
-        except Exception as exec_error:
-            print(exec_error)
-            response_object = {
-                'status': 'fail',
-                'message': 'Try again'
-            }
-            return response_object, 500
+        except Exception:
+
+            return HTTPResponse.http_500_unexpected()
 
     @staticmethod
     def logout_user(data):
@@ -77,20 +58,10 @@ class AuthController:
                 return save_token(token=auth_token)
 
             else:
-                response_object = {
-                    'status': 'fail',
-                    'message': resp
-                }
-
-                return response_object, 401
+                return HTTPResponse.http_401_unauthorized()
 
         else:
-            response_object = {
-                'status': 'fail',
-                'message': 'Provide a valid auth token.'
-            }
-
-            return response_object, 403
+            return HTTPResponse.http_403_forbidden()
 
     @staticmethod
     def get_logged_in_user(new_request):
