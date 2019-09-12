@@ -9,6 +9,10 @@ from pyqtt_application.extensions import db
 
 
 class Message(db.Model):
+    """
+    Message representation on database and useful methods for
+    message handling operations.
+    """
     __tablename__ = "message"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -24,7 +28,12 @@ class Message(db.Model):
             message=self.message
         )
 
-    def serialize(self):
+    def serialize(self) -> OrderedDict:
+        """Make the Message object into a serializable object.
+
+        Returns:
+            OrderedDict
+        """
         serialized = OrderedDict()
         serialized['id'] = self.id
         serialized['topic'] = self.topic
