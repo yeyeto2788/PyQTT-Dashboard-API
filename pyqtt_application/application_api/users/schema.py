@@ -37,7 +37,7 @@ class UserSchema(BaseSchema):
     put_params = {
         'public_id': dict(
             type=fields.String(),
-            help="Username.",
+            help="User's' public id.",
         ),
         'password': dict(
             type=fields.String(),
