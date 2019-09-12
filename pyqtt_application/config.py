@@ -3,6 +3,12 @@ Flask config file where most of the environment variables are set.
 """
 import os
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(r'C:/workspace/mqttpyAdmin/test.db')
+__key = os.urandom(16)  # Change this to a fix string.
+
+__default_db = 'sqlite:///' + os.path.join(os.getcwd(), 'test.db')
+
+SQLALCHEMY_DATABASE_URI = os.getenv("PYQTT_DATABASE_URL", __default_db)
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 JSON_SORT_KEYS = False
+JWT_SECRET_KEY = __key
+SECRET_KEY = __key

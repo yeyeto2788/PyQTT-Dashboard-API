@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, Response
 
 from pyqtt_application.application_api.auth import AUTH_NS
 from pyqtt_application.application_api.auth.controller import AuthController
@@ -24,16 +24,16 @@ class LoginAPI(BaseResource):
     @namespace.response(code=400, description='Unexpected error.')
     def post(self):
 
-        post_data = request.json
+        post_data = request.args
 
         response = AuthController.login_user(post_data)
 
-        if isinstance(response, HTTPResponse):
+        if isinstance(response, Response):
 
             return response
 
         else:
-            data = dict(token=response)
+            data = dict(access_token=response)
 
             return HTTPResponse.http_200_ok(data=data, model=self._model)
 
@@ -55,11 +55,12 @@ class LogoutAPI(BaseResource):
     @namespace.response(code=404, description='No content response.')
     @namespace.response(code=400, description='Unexpected error.')
     def post(self):
+
         auth_header = request.headers.get('Authorization')
 
         response = AuthController.logout_user(auth_header)
 
-        if isinstance(response, HTTPResponse):
+        if isinstance(response, Response):
 
             return response
 

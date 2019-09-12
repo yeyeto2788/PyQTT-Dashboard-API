@@ -2,6 +2,8 @@
 All logic related to messages operation so this is executed
 outside of the routes definition.
 """
+from flask import Response
+
 from pyqtt_application.common.http_responses import HTTPResponse
 from pyqtt_application.extensions import db
 from pyqtt_application.models.messages_models import Message
@@ -51,11 +53,14 @@ class MessageController:
         return message
 
     @staticmethod
-    def delete_message(message_id: int):
+    def delete_message(message_id: int) -> Response or Message:
         """Delete message by a given id.
 
         Args:
             message_id: Message id on the database.
+
+        Returns:
+
 
         """
         message = Message.query.filter_by(id=message_id).first()
@@ -70,11 +75,11 @@ class MessageController:
             return HTTPResponse.http_404_not_found()
 
     @staticmethod
-    def add_message(id, topic, message, client_data=None, user_data=None):
+    def add_message(message_id, topic, message, client_data=None, user_data=None) -> Message:
         """
 
         Args:
-            id:
+            message_id:
             topic:
             message:
             client_data:
@@ -85,7 +90,7 @@ class MessageController:
         """
 
         message_obj = Message(
-            id=id,
+            id=message_id,
             topic=topic,
             message=message,
             client=client_data,

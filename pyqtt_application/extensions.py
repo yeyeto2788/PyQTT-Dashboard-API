@@ -4,9 +4,9 @@ Extensions module.
 Each extension is initialized in the app factory located in app.py.
 """
 
-from flask_sqlalchemy import SQLAlchemy
-
+from flask_jwt import JWT, jwt_required
 from flask_restplus import Api
+from flask_sqlalchemy import SQLAlchemy
 
 # API basic setup.
 api = Api(
@@ -19,3 +19,4 @@ api = Api(
 )
 # Database
 db = SQLAlchemy()
+jwt = JWT()

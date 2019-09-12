@@ -1,13 +1,14 @@
 """
 Routes/endpoints for the messages namespace.
 """
-from flask import request
+from flask import request, Response
 
 from pyqtt_application.application_api.messages import MESSAGE_NS
 from pyqtt_application.application_api.messages.controller import MessageController
 from pyqtt_application.application_api.messages.schema import MessageSchema
 from pyqtt_application.common.base_routes import BaseResource
 from pyqtt_application.common.http_responses import HTTPResponse
+from pyqtt_application.extensions import jwt_required
 
 
 @MESSAGE_NS.route("/")
@@ -22,6 +23,7 @@ class MessageResource(BaseResource):
     delete_parser = schema.parser(method='delete')
     post_parser = schema.parser(method='post')
 
+    @jwt_required()
     @namespace.doc(schema.model_name)
     @namespace.expect(get_parser, validate=True)
     @namespace.response(code=200, description='Success.')
@@ -38,6 +40,7 @@ class MessageResource(BaseResource):
 
             if message_id == -1:
                 message_obj = self.controller_type.get_last_message()
+
             else:
                 message_obj = self.controller_type.get_message(message_id)
 
@@ -54,6 +57,7 @@ class MessageResource(BaseResource):
 
         return response
 
+    @jwt_required()
     @namespace.doc(schema.model_name)
     @namespace.expect(delete_parser, validate=True)
     @namespace.response(code=200, description='Success')
@@ -68,7 +72,7 @@ class MessageResource(BaseResource):
 
             operation_return = self.controller_type.delete_message(message_id)
 
-            if isinstance(operation_return, HTTPResponse):
+            if isinstance(operation_return, Response):
 
                 return operation_return
 
@@ -80,6 +84,7 @@ class MessageResource(BaseResource):
 
             return HTTPResponse.http_500_unexpected()
 
+    @jwt_required()
     @namespace.doc(schema.model_name)
     @namespace.expect(post_parser, validate=True)
     @namespace.response(code=200, description='Success')
@@ -97,7 +102,7 @@ class MessageResource(BaseResource):
 
         try:
             message_obj = self.controller_type.add_message(
-                id=message_id,
+                message_id=message_id,
                 topic=topic,
                 message=message
             )

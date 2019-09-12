@@ -5,6 +5,9 @@ import jwt
 
 from pyqtt_application.extensions import db
 from pyqtt_application.models.tokenblacklist_models import BlacklistToken
+from pyqtt_application.config import JWT_SECRET_KEY
+
+from pyqtt_application.common import exceptions
 
 
 class User(db.Model):
@@ -50,49 +53,50 @@ class User(db.Model):
     def encode_auth_token(user_id):
         """Generates the Auth Token
 
-        Returns:
+        Args:
+            user_id:
 
+        Returns:
+            Token for the client and authorization operations.
         """
         try:
             payload = {
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=5),
                 'iat': datetime.datetime.utcnow(),
-                'sub': user_id
+                'nbf': datetime.datetime.utcnow(),
+                'public_id': user_id,
             }
 
-            return jwt.encode(payload, key, algorithm='HS256')
+            return jwt.encode(payload, JWT_SECRET_KEY, algorithm='HS256')
 
         except Exception as exec_error:
 
             return exec_error
 
     @staticmethod
-    def decode_auth_token(auth_token) -> int or str:
+    def decode_auth_token(auth_token) -> str:
         """Decodes the auth token
 
         Returns:
 
         """
         try:
-            payload = jwt.decode(auth_token, key)
+            payload = jwt.decode(auth_token, JWT_SECRET_KEY)
             is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
 
             if is_blacklisted_token:
                 return 'Token blacklisted. Please log in again.'
 
             else:
-                return payload['sub']
+                return payload['public_id']
 
-        except jwt.ExpiredSignatureError:
+        except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
 
-            return 'Signature expired. Please log in again.'
-
-        except jwt.InvalidTokenError:
-
-            return 'Invalid token. Please log in again.'
+            raise exceptions.PyQTTTokenError
 
     def __repr__(self):
-        return "<{class_name} '{user}'>".format(
+        return "<{class_name}: '{user}':'{id}'>".format(
             class_name=self.__class__.__name__,
             user=self.username,
+            id=self.public_id,
         )

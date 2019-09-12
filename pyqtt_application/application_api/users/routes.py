@@ -5,6 +5,7 @@ from pyqtt_application.application_api.users.controller import UserController
 from pyqtt_application.application_api.users.schema import UserSchema
 from pyqtt_application.common.base_routes import BaseResource
 from pyqtt_application.common.http_responses import HTTPResponse
+from pyqtt_application.extensions import jwt_required
 
 
 @USER_NS.route("/")
@@ -44,6 +45,7 @@ class UserResource(BaseResource):
 
             return HTTPResponse.http_500_unexpected()
 
+    @jwt_required()
     @namespace.doc(schema.model_name)
     @namespace.expect(put_parser, validate=True)
     @namespace.response(code=200, description='Success')

@@ -1,9 +1,11 @@
 import datetime
 import uuid
 
+from flask import Response
+
+from pyqtt_application.common.http_responses import HTTPResponse
 from pyqtt_application.extensions import db
 from pyqtt_application.models.users_models import User
-from pyqtt_application.common.http_responses import HTTPResponse
 
 
 class UserController:
@@ -33,7 +35,7 @@ class UserController:
         return user_obj
 
     @staticmethod
-    def add_user(email: str, username: str, password: str):
+    def add_user(email: str, username: str, password: str) -> Response:
 
         user_object = User.query.filter_by(email=email).first()
 
