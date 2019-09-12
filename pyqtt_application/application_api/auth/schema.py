@@ -10,17 +10,17 @@ class AuthSchema(BaseSchema):
     model = AUTH_NS.model(
         name='Auth',
         model={
-            'token': fields.String(),
+            'access_token': fields.String(),
         }
     )
 
     post_params = {
         'email': dict(
-            type=fields.String(),
-            help="Public user id."
+            type=fields.String(required=True),
+            help="User's email."
         ),
         'password': dict(
-            type=fields.String(),
+            type=fields.String(required=True),
             help="User password hash"
         )
     }
