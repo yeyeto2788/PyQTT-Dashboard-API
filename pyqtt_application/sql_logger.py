@@ -7,7 +7,7 @@ import uuid
 
 import paho.mqtt.client as mqtt
 
-from pyqtt_application.app import db
+from pyqtt_application.extensions import db
 from pyqtt_application.models.messages_models import Message
 
 

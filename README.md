@@ -35,6 +35,15 @@ There are several way to run the application depending on how you want to run th
 - Install required dependencies.
 
   `pip install -r requirements.txt`
+
+- Start celery
+
+  - Linux:
+    
+    `celery worker -A pyqtt_application.extensions.celery --loglevel=info`
+  
+  - Windows:
+    `celery worker -A pyqtt_application.extensions.celery --pool=solo --loglevel=info`
     
 - Create the database.
 

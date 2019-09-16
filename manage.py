@@ -73,9 +73,9 @@ def runserver(host, port, topic):
     """
 
     record_options = dict(
-        host=host,
+        host=host if host else 'test.mosquitto.org',
         port=port if port else 1883,
-        topic=topic if topic else 'test.mosquitto.org'
+        topic=topic if topic else '/#'
     )
 
     record_thread = threading.Thread(target=record_messages, kwargs=record_options, daemon=True)
