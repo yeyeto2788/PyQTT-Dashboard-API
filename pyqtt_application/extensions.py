@@ -21,4 +21,4 @@ api = Api(
 # Database
 db = SQLAlchemy()
 jwt = JWT()
-celery = Celery()
+celery = Celery(include=['pyqtt_application.tasks.mqtt_tasks'])

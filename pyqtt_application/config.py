@@ -14,3 +14,4 @@ JWT_SECRET_KEY = __key
 SECRET_KEY = __key
 CELERY_BROKER_URL = os.getenv("CELERY_URL", "redis://localhost:6379/0")
 CELERY_RESULT_BACKEND = os.getenv("CELERY_BACKEND_URL", "redis://localhost:6379/0")
+CELERY_IMPORTS = ('pyqtt_application.tasks.mqtt_tasks.record_mqtt_messages',)
