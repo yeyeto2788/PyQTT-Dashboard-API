@@ -1,0 +1,27 @@
+# Test and coverage files.
+/htmlcov
+.coverage
+coverage.xml
+unittests.xml
+.pytest_cache
+
+# Pylint files
+pylint.out
+
+# Setup distribution files
+dist/*
+
+.cache
+# IDE files
+.idea
+.vscode
+
+# Virtual envs
+venv
+
+# Other files
+*.pyc
+*.egg-info*
+
+# Temp files
+temp/*
