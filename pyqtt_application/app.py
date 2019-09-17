@@ -6,8 +6,8 @@ from werkzeug.security import safe_str_cmp
 
 from pyqtt_application.application_api.auth.routes import AUTH_NS
 from pyqtt_application.application_api.messages.routes import MESSAGE_NS
-from pyqtt_application.application_api.users.routes import USER_NS
 from pyqtt_application.application_api.settings.routes import SETTINGS_NS
+from pyqtt_application.application_api.users.routes import USER_NS
 from pyqtt_application.extensions import db, api, jwt, celery
 from pyqtt_application.models.users_models import User
 from pyqtt_application.web_application.messages.messages_blueprint import message_bp
@@ -115,6 +115,11 @@ def configure_jwt(app):
 
 
 def configure_celery(app: Flask):
-    celery.main = app.name
-    celery.broker = app.config['CELERY_BROKER_URL']
-    celery.conf.update(app.config)
+    """
+    Initialize celery in order to get working the tasks.
+
+    Args:
+        app: a Flask application.
+
+    """
+    celery.init_app(app)

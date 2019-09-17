@@ -4,7 +4,7 @@ from pyqtt_application.application_api.settings import SETTINGS_NS
 from pyqtt_application.common.base_routes import BaseResource
 from pyqtt_application.application_api.settings.schema import SettingsSchema
 from pyqtt_application.common.http_responses import HTTPResponse
-from pyqtt_application.tasks.mqtt_tasks import start_recording
+from pyqtt_application.app_tasks.mqtt_tasks import start_recording
 
 
 @SETTINGS_NS.route('/record')
@@ -26,6 +26,6 @@ class RecordMessages(BaseResource):
             topic='/#'
         )
 
-        task = start_recording.apply_async(kwargs=record_options)
+        task = start_recording.apply_async()
 
         return task.id, 200

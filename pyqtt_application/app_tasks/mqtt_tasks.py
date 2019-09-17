@@ -3,30 +3,21 @@ from pyqtt_application.sql_logger import record_messages
 
 
 @celery.task(bind=True)
-def start_recording(self, host, port, topic):
+def start_recording(self):
     """
-
-    Args:
-        self:
-        host:
-        port:
-        topic:
-
-    Returns:
-
+    First version to check whether this is launched on celery.
     """
-
-    record_messages(host=host, port=port, topic=topic)
+    print('Start recording')
+    record_messages()
 
 
 @celery.task(bind=True)
-def stop_recording(task_id: str):
+def stop_task(task_id: str):
     """
+    Stop a task by its given id.
 
     Args:
-        task_id:
-
-    Returns:
+        task_id: Id of the task to be stopped.
 
     """
     celery.control.revoke(task_id, terminate=True)

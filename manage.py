@@ -3,7 +3,6 @@ Flask server run
 """
 import os
 import pprint
-import threading
 from pathlib import Path
 from random import randrange
 
@@ -13,10 +12,9 @@ from waitress import serve
 from pyqtt_application.app import create_app, db
 from pyqtt_application.models.messages_models import Message
 from pyqtt_application.models.tokenblacklist_models import BlacklistToken
-from pyqtt_application.sql_logger import record_messages
 
 app = create_app()
-# app.app_context().push()
+
 manager = Manager(
     app,
     with_default_commands=False
@@ -67,20 +65,11 @@ def populate():
 
 
 @manager.command
-def runserver(host, port, topic):
+def runserver():
     """
     Start recording messages from the MQTT broker and the server at the same time.
     """
 
-    record_options = dict(
-        host=host if host else 'test.mosquitto.org',
-        port=port if port else 1883,
-        topic=topic if topic else '/#'
-    )
-
-    record_thread = threading.Thread(target=record_messages, kwargs=record_options, daemon=True)
-
-    record_thread.start()
     serve(app, port=os.getenv('APP_PORT', 8080))
 
 
@@ -126,14 +115,8 @@ def run():
         else:
             drop()
 
-    create()
-    populate()
-
-    record_options = dict(
-        host='iot.eclipse.org',
-    )
-    record_thread = threading.Thread(target=record_messages, kwargs=record_options, daemon=True)
-    record_thread.start()
+        create()
+        populate()
 
     app.run(host='127.0.0.1', port=8080, debug=True, use_reloader=False)
 
