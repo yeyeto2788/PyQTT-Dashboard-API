@@ -4,11 +4,12 @@ received calling the callback function `on_message` and adding the messages
 into the database.
 """
 import uuid
+from datetime import datetime
 
 import paho.mqtt.client as mqtt
+import sqlalchemy
 
-from pyqtt_application.extensions import db
-from pyqtt_application.models.messages_models import Message
+from pyqtt_application.config import SQLALCHEMY_DATABASE_URI
 
 
 def on_message(client: mqtt.Client, userdata, message):
@@ -23,19 +24,32 @@ def on_message(client: mqtt.Client, userdata, message):
 
     """
 
+    engine = sqlalchemy.create_engine(SQLALCHEMY_DATABASE_URI)
+    connection = engine.connect()
+    metadata = sqlalchemy.MetaData()
+    messaje_table = sqlalchemy.Table('message', metadata, autoload=True, autoload_with=engine)
+
+    topic = str(message.topic),
+    message = message.payload.decode('utf-8'),
+    user_data = str(userdata),
+    client = str(client)
+    timestamp = datetime.utcnow()
+
     try:
-        message = Message(
-            topic=str(message.topic),
-            h_message=message.payload.decode('utf-8'),
-            r_message=message.payload,
-            user_data=str(userdata),
-            client=str(client)
+        sql_query = sqlalchemy.insert(messaje_table).values(
+            topic=topic,
+            message=message,
+            datetime=timestamp,
+            client=client,
+            user_data=user_data
         )
-        db.session.add(message)
-        db.session.commit()
+        connection.execute(sql_query)
 
     except Exception as e:
         print(f'An error occurred trying to add a message to db: {e.__str__()}')
+
+    finally:
+        connection.close()
 
 
 def record_messages(host: str = 'test.mosquitto.org', port: str = 1883, topic: str = '/#'):
@@ -54,7 +68,7 @@ def record_messages(host: str = 'test.mosquitto.org', port: str = 1883, topic: s
         topic: Topic to subscribe to.
 
     """
-
+    print(f'host: {host}, port: {port}, topic: {topic}')
     client_name = str(uuid.uuid1())
 
     client = mqtt.Client(client_id=client_name)
