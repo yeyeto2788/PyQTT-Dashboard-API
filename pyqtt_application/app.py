@@ -4,11 +4,11 @@
 from flask import Flask
 from werkzeug.security import safe_str_cmp
 
+from pyqtt_application.extensions import db, api, jwt, celery
 from pyqtt_application.application_api.auth.routes import AUTH_NS
 from pyqtt_application.application_api.messages.routes import MESSAGE_NS
 from pyqtt_application.application_api.settings.routes import SETTINGS_NS
 from pyqtt_application.application_api.users.routes import USER_NS
-from pyqtt_application.extensions import db, api, jwt, celery
 from pyqtt_application.models.users_models import User
 from pyqtt_application.web_application.messages.messages_blueprint import message_bp
 from pyqtt_application.web_application.settings.setting_blueprint import settings_bp
@@ -53,6 +53,7 @@ def create_app() -> Flask:
     """
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
+    app.app_context().push()
 
     configure_blueprints(app)
     configure_database(app)
@@ -122,4 +123,4 @@ def configure_celery(app: Flask):
         app: a Flask application.
 
     """
-    celery.init_app(app)
+    celery.config_from_object(app.config)

@@ -14,7 +14,8 @@ from pyqtt_application.config import CELERY_BROKER_URL, CELERY_RESULT_BACKEND
 
 class FlaskCelery(Celery):
     """
-    Class to handle application teardown and set up on a per-task basis,
+    Class to handle application teardown and set up on a per-task basis, as seen in,
+    https://stackoverflow.com/questions/12044776/how-to-use-flask-sqlalchemy-in-a-celery-task
     based on the pattern described on http://flask.pocoo.org/docs/1.0/patterns/celery/
     """
 
@@ -47,8 +48,7 @@ class FlaskCelery(Celery):
         self.config_from_object(app.config)
 
 
-celery = FlaskCelery(
-    "pyqtt_app_celery",
+celery = Celery(
     broker=CELERY_BROKER_URL,
     backend=CELERY_RESULT_BACKEND,
     include=['pyqtt_application.app_tasks.mqtt_tasks'])
