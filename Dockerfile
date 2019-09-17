@@ -12,4 +12,4 @@ RUN apt-get update
 RUN apt-get install redis-server -y
 RUN pip install -r requirements.txt
 # Add the arguments we need to pass into the command above.
-CMD ["sh", "-c", "service redis-server restart && python run.py"]
+CMD ["sh", "-c", "service redis-server restart && python manage.py runserver"]
