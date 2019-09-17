@@ -15,7 +15,7 @@ class Message(db.Model):
     """
     __tablename__ = "message"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     topic = db.Column(db.String)
     message = db.Column(db.String)
     datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
