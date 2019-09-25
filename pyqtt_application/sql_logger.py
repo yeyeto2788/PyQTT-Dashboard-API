@@ -84,5 +84,6 @@ def record_messages(host: str = 'test.mosquitto.org', port: str = 1883, topic: s
         client.subscribe(topic, 0)
 
         client.loop_forever()
+
     finally:
         client.loop_stop()
