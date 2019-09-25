@@ -3,6 +3,7 @@ Flask server run
 """
 import os
 import pprint
+from datetime import datetime
 from pathlib import Path
 from random import randrange
 
@@ -12,6 +13,7 @@ from waitress import serve
 from pyqtt_application.app import create_app, db
 from pyqtt_application.models.messages_models import Message
 from pyqtt_application.models.tokenblacklist_models import BlacklistToken
+from pyqtt_application.models.users_models import User
 
 app = create_app()
 
@@ -56,6 +58,22 @@ def recreate():
 
 @db_manager.command
 def populate():
+    """Populate the db with some dummy items in order to test the application endpoints.
+
+    """
+    # Add user
+    user_obj = User(
+        email="admin@test.com",
+        admin=True,
+        username="admin",
+        public_id="5473dfa6-6b61-4594-8a46-5b9cb3946bb7",
+        registered_on=datetime.utcnow()
+    )
+    user_obj.password = "1234"
+
+    db.session.add(user_obj)
+
+    # Add messages
     for _ in range(100):
         message = Message(topic='/test/temp', message=str(randrange(20, 42)), client='',
                           user_data='')
