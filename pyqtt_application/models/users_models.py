@@ -5,7 +5,7 @@ import jwt
 
 from pyqtt_application.extensions import db
 from pyqtt_application.models.tokenblacklist_models import BlacklistToken
-from pyqtt_application.config import JWT_SECRET_KEY
+from pyqtt_application.config import JWT_SECRET_KEY, JWT_ALGORITHM
 
 from pyqtt_application.common import exceptions
 
@@ -62,12 +62,12 @@ class User(db.Model):
         try:
             payload = {
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=5),
-                'iat': datetime.datetime.utcnow(),
+                'iat': datetime.datetime.utcnow() - datetime.timedelta(seconds=5),
                 'nbf': datetime.datetime.utcnow(),
                 'public_id': user_id,
             }
 
-            return jwt.encode(payload, JWT_SECRET_KEY, algorithm='HS256')
+            return jwt.encode(payload=payload, key=JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
 
         except Exception as exec_error:
 
@@ -81,7 +81,7 @@ class User(db.Model):
 
         """
         try:
-            payload = jwt.decode(auth_token, JWT_SECRET_KEY)
+            payload = jwt.decode(jwt=auth_token, key=JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
             is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
 
             if is_blacklisted_token:

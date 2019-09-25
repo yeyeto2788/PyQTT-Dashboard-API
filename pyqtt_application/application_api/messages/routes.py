@@ -25,6 +25,7 @@ class MessageResource(BaseResource):
 
     @jwt_required()
     @namespace.doc(schema.model_name)
+    @namespace.doc(security='swagger_api_key')
     @namespace.expect(get_parser, validate=True)
     @namespace.response(code=200, description='Success.')
     @namespace.response(code=404, description='No content response.')
@@ -38,7 +39,7 @@ class MessageResource(BaseResource):
             arguments = request.args
             message_id = arguments.get('message_id')
 
-            if message_id == -1:
+            if int(message_id) == -1:
                 message_obj = self.controller_type.get_last_message()
 
             else:
@@ -59,6 +60,7 @@ class MessageResource(BaseResource):
 
     @jwt_required()
     @namespace.doc(schema.model_name)
+    @namespace.doc(security='swagger_api_key')
     @namespace.expect(delete_parser, validate=True)
     @namespace.response(code=200, description='Success')
     @namespace.response(code=400, description='Unexpected error')
@@ -86,6 +88,7 @@ class MessageResource(BaseResource):
 
     @jwt_required()
     @namespace.doc(schema.model_name)
+    @namespace.doc(security='swagger_api_key')
     @namespace.expect(post_parser, validate=True)
     @namespace.response(code=200, description='Success')
     @namespace.response(code=400, description='Unexpected error')
