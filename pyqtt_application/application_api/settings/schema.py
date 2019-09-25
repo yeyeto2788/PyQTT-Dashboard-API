@@ -11,3 +11,21 @@ class SettingsSchema(BaseSchema):
         name='Settings',
         model={}
     )
+
+    post_params = {
+        "host": dict(
+            type=fields.String(),
+            help="Host to listen to.",
+            default='test.mosquitto.org',
+        ),
+        "port": dict(
+            type=fields.String(),
+            help="Open on which the broker is.",
+            default=1883,
+        ),
+        "topic": dict(
+            type=fields.String(),
+            help="Topic to subscribe to.",
+            default="/#",
+        ),
+    }
