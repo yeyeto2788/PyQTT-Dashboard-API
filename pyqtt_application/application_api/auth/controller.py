@@ -63,7 +63,8 @@ class AuthController:
                 auth_token = User.encode_auth_token(user.public_id)
 
                 if auth_token:
-                    return auth_token.decode('utf-8')
+                    # Added the JWT string at the beginning for easier copy & paste
+                    return f"JWT {auth_token.decode('utf-8')}"
 
             else:
 

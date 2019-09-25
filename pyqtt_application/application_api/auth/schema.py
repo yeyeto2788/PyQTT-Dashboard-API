@@ -20,7 +20,7 @@ class AuthSchema(BaseSchema):
             help="User's email."
         ),
         'password': dict(
-            type=fields.String(required=True),
-            help="User password hash"
+            type=fields.String(required=True, format='password'),
+            help="User password.",
         )
     }
