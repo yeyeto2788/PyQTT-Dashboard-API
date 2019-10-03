@@ -52,7 +52,7 @@ def on_message(client: mqtt.Client, userdata, message):
         connection.close()
 
 
-def record_messages(host: str = 'test.mosquitto.org', port: str = 1883, topic: str = '/#'):
+def record_messages(host: str = 'broker.hivemq.com', port: str = 1883, topic: str = '/#'):
     """Main function to connect and set a callback function to execute on each message received.
 
     Start the MQTT client and add the option to call the function `on_message` in order to
@@ -60,7 +60,7 @@ def record_messages(host: str = 'test.mosquitto.org', port: str = 1883, topic: s
 
     This client will connect to the `host` and `port` set by argument and listening to a
     given topic on the broker, if this function is called with no parameters then the host
-    will be 'test.mosquitto.org' and the default port will be 1883 listening to all topics.
+    will be 'broker.hivemq.com' and the default port will be 1883 listening to all topics.
 
     Args:
         host: IP or domain of the MQTT broker.
