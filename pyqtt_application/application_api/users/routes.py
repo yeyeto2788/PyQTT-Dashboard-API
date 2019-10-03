@@ -11,7 +11,7 @@ from pyqtt_application.extensions import jwt_required
 @USER_NS.route("/")
 class UserResource(BaseResource):
     """
-    Message operation
+    Users operation
     """
     controller_type = UserController()
     namespace = USER_NS
@@ -25,7 +25,7 @@ class UserResource(BaseResource):
     @namespace.response(code=200, description='Success')
     @namespace.response(code=400, description='Unexpected error')
     def post(self):
-
+        """Add new user to the application database."""
         arguments = request.args
 
         email = arguments['email']
@@ -51,7 +51,7 @@ class UserResource(BaseResource):
     @namespace.response(code=200, description='Success')
     @namespace.response(code=400, description='Unexpected error')
     def put(self):
-
+        """Edit the user password."""
         try:
             arguments = request.args
             user_id = arguments['public_id']
