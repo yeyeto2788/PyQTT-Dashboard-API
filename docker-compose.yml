@@ -1,0 +1,65 @@
+version: "3.7"
+services:
+  pyqtt_application:
+    container_name: pyqtt_application
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        APP_PORT: ${APP_PORT}
+    image: pyqtt-application-image
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    links:
+      - redis
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+    env_file:
+      - ./example.env
+    deploy:
+      replicas: 1
+      update_config:
+        order: start-first
+        delay: 60s
+        parallelism: 1
+        failure_action: rollback
+
+  redis:
+    container_name: redis
+    image: redis:5.0.5
+    expose:
+      - 6379
+      - 1883
+    deploy:
+      replicas: 1
+      update_config:
+        order: start-first
+        delay: 60s
+        parallelism: 1
+        failure_action: rollback
+
+  worker:
+    build:
+      context: ./
+    entrypoint: celery
+    command: -A pyqtt_application.extensions.celery worker --loglevel=info
+    volumes:
+      - .:/app
+    links:
+      - redis
+    depends_on:
+      - redis
+    env_file:
+      - ./example.env
+    expose:
+      - 6379
+      - 1883
+    deploy:
+      replicas: 1
+      update_config:
+        order: start-first
+        delay: 60s
+        parallelism: 1
+        failure_action: rollback
