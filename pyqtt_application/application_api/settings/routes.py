@@ -30,13 +30,13 @@ class RecordMessages(BaseResource):
         """
         arguments = request.args
 
-        host = arguments.get('host', 'test.mosquitto.org')
+        host = arguments.get('host', 'broker.hivemq.com')
         port = arguments.get('port', 1883)
         topic = arguments.get('topic', '/#')
 
         record_options = dict(
             host=host,
-            port=port,
+            port=int(port),
             topic=topic
         )
 

@@ -16,7 +16,7 @@ class SettingsSchema(BaseSchema):
         "host": dict(
             type=fields.String(),
             help="Host to listen to.",
-            default='test.mosquitto.org',
+            default='broker.hivemq.com',
         ),
         "port": dict(
             type=fields.String(),
