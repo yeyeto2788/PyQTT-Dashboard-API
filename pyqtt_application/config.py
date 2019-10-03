@@ -5,7 +5,7 @@ import os
 
 __key = os.urandom(16)  # Change this to a fix string.
 
-__default_db = 'sqlite:///' + os.path.join(os.getcwd(), 'pyqtt.db')
+__default_db = f"sqlite:///{os.path.join(os.getcwd(), 'pyqtt.db')}"
 
 # Flask configuration.
 SECRET_KEY = __key
