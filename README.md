@@ -1,4 +1,8 @@
 # PyQTT-Dashboard-API
+
+![Master build status](https://travis-ci.org/yeyeto2788/PyQTT-Dashboard-API.svg?branch=master)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+
 Python dashboard and API for MQTT messages stored in a database.
 
 This Python application let's you record messages from a given `server:port`  
