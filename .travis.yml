@@ -8,7 +8,7 @@ before_install:
   - python --version
   - uname -a
 install:
-  - pip install pylint>=2.2.2
+  - pip install flake8==3.7.8
   - pip install pytest==4.4.1
   - pip install pytest-cov==2.6.1
   - pip install -r requirements.txt
@@ -16,5 +16,5 @@ install:
 # Execute the tests and the linter
 script:
   - pytest --cov=pyqtt_application
-  - pylint --output-format=text --rcfile=.pylintrc --errors-only pyqtt_application
+  - flake8 --ignore=E501,W503,E203
   - echo "Done"
