@@ -15,6 +15,6 @@ install:
   - pip freeze
 # Execute the tests and the linter
 script:
-  - pytest --cov=pyqtt_application
-  - flake8 --ignore=E501,W503,E203
+  - pytest --cov=pyqtt_application --config=.flake
+  - flake8 --ignore=E501,W503,E203,F401
   - echo "Done"
