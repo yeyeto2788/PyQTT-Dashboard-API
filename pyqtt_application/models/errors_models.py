@@ -9,7 +9,7 @@ from pyqtt_application.extensions import db
 
 
 class Errors(db.Model):
-    __tablename__ = 'error'
+    __tablename__ = "error"
 
     id = db.Column(db.Integer, primary_key=True)
     error_type = db.column(db.String)
@@ -17,16 +17,15 @@ class Errors(db.Model):
     datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return '<{class_name}:  {error}>'.format(
-            class_name=self.__class__.__name__,
-            error=self.message
+        return "<{class_name}:  {error}>".format(
+            class_name=self.__class__.__name__, error=self.message
         )
 
     def serialize(self):
         serialized = OrderedDict()
-        serialized['id'] = self.id
-        serialized['message'] = self.message
-        serialized['error type'] = self.error_type
-        serialized['datetime'] = self.datetime
+        serialized["id"] = self.id
+        serialized["message"] = self.message
+        serialized["error type"] = self.error_type
+        serialized["datetime"] = self.datetime
 
         return serialized

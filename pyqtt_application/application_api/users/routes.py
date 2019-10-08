@@ -13,30 +13,29 @@ class UserResource(BaseResource):
     """
     Users operation
     """
+
     controller_type = UserController()
     namespace = USER_NS
     schema = UserSchema()
-    put_parser = schema.parser(method='put')
-    delete_parser = schema.parser(method='delete')
-    post_parser = schema.parser(method='post')
+    put_parser = schema.parser(method="put")
+    delete_parser = schema.parser(method="delete")
+    post_parser = schema.parser(method="post")
 
     @namespace.doc(schema.model_name)
     @namespace.expect(post_parser, validate=True)
-    @namespace.response(code=200, description='Success')
-    @namespace.response(code=400, description='Unexpected error')
+    @namespace.response(code=200, description="Success")
+    @namespace.response(code=400, description="Unexpected error")
     def post(self):
         """Add new user to the application database."""
         arguments = request.args
 
-        email = arguments['email']
-        username = arguments['username']
-        password = arguments['password']
+        email = arguments["email"]
+        username = arguments["username"]
+        password = arguments["password"]
 
         try:
             response = self.controller_type.add_user(
-                email=email,
-                username=username,
-                password=password
+                email=email, username=username, password=password
             )
 
             return response
@@ -48,14 +47,14 @@ class UserResource(BaseResource):
     @jwt_required()
     @namespace.doc(schema.model_name)
     @namespace.expect(put_parser, validate=True)
-    @namespace.response(code=200, description='Success')
-    @namespace.response(code=400, description='Unexpected error')
+    @namespace.response(code=200, description="Success")
+    @namespace.response(code=400, description="Unexpected error")
     def put(self):
         """Edit the user password."""
         try:
             arguments = request.args
-            user_id = arguments['public_id']
-            new_password = arguments['password']
+            user_id = arguments["public_id"]
+            new_password = arguments["password"]
 
             user_obj = self.controller_type.edit_user_password(
                 public_id=user_id, password=new_password

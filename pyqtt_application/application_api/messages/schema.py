@@ -12,43 +12,34 @@ class MessageSchema(BaseSchema):
     """Message schema that should be return on operations.
 
     """
-    model_name = 'Message operations'
+
+    model_name = "Message operations"
 
     model = MESSAGE_NS.model(
-        name='Message',
+        name="Message",
         model={
-            'id': fields.Integer(),
-            'topic': fields.String(),
-            'message': fields.String(),
-            'datetime': fields.DateTime(),
-            'client': fields.String(),
-            'user_data': fields.String(),
+            "id": fields.Integer(),
+            "topic": fields.String(),
+            "message": fields.String(),
+            "datetime": fields.DateTime(),
+            "client": fields.String(),
+            "user_data": fields.String(),
         },
     )
 
     get_params = {
-        'message_id': dict(
+        "message_id": dict(
             type=fields.Integer(),
-            help="Id of the message to retrieve (If -1 will return last).")
+            help="Id of the message to retrieve (If -1 will return last).",
+        )
     }
 
     delete_params = {
-        'message_id': dict(
-            type=fields.Integer(),
-            help="Id of the message to delete.")
+        "message_id": dict(type=fields.Integer(), help="Id of the message to delete.")
     }
 
     post_params = {
-        'id': dict(
-            type=fields.Integer(),
-            help="Id of the message to be added."
-        ),
-        'topic': dict(
-            type=fields.String(),
-            help="Topic to be added."
-        ),
-        'message': dict(
-            type=fields.String(),
-            help="Message."
-        ),
+        "id": dict(type=fields.Integer(), help="Id of the message to be added."),
+        "topic": dict(type=fields.String(), help="Topic to be added."),
+        "message": dict(type=fields.String(), help="Message."),
     }

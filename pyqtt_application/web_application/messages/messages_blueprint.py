@@ -8,12 +8,11 @@ from pyqtt_application.extensions import db
 from pyqtt_application.models.messages_models import Message
 
 message_bp = Blueprint(
-    name='messages',
-    import_name=__name__,
-    template_folder='templates')
+    name="messages", import_name=__name__, template_folder="templates"
+)
 
 
-@message_bp.route('/', methods=['GET'])
+@message_bp.route("/", methods=["GET"])
 def root():
     """
 

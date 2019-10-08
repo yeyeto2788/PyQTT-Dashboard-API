@@ -7,20 +7,11 @@ from pyqtt_application.common.base_schema import BaseSchema
 class AuthSchema(BaseSchema):
     model_name = "Authentication operations."
 
-    model = AUTH_NS.model(
-        name='Auth',
-        model={
-            'access_token': fields.String(),
-        }
-    )
+    model = AUTH_NS.model(name="Auth", model={"access_token": fields.String()})
 
     post_params = {
-        'email': dict(
-            type=fields.String(required=True),
-            help="User's email."
+        "email": dict(type=fields.String(required=True), help="User's email."),
+        "password": dict(
+            type=fields.String(required=True, format="password"), help="User password."
         ),
-        'password': dict(
-            type=fields.String(required=True, format='password'),
-            help="User password.",
-        )
     }

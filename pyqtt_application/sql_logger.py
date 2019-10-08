@@ -27,11 +27,13 @@ def on_message(client: mqtt.Client, userdata, message):
     engine = sqlalchemy.create_engine(SQLALCHEMY_DATABASE_URI)
     connection = engine.connect()
     metadata = sqlalchemy.MetaData()
-    messaje_table = sqlalchemy.Table('message', metadata, autoload=True, autoload_with=engine)
+    messaje_table = sqlalchemy.Table(
+        "message", metadata, autoload=True, autoload_with=engine
+    )
 
-    topic = str(message.topic),
-    message = message.payload.decode('utf-8'),
-    user_data = str(userdata),
+    topic = (str(message.topic),)
+    message = (message.payload.decode("utf-8"),)
+    user_data = (str(userdata),)
     client = str(client)
     timestamp = datetime.utcnow()
 
@@ -41,18 +43,20 @@ def on_message(client: mqtt.Client, userdata, message):
             message=message,
             datetime=timestamp,
             client=client,
-            user_data=user_data
+            user_data=user_data,
         )
         connection.execute(sql_query)
 
     except Exception as e:
-        print(f'An error occurred trying to add a message to db: {e.__str__()}')
+        print(f"An error occurred trying to add a message to db: {e.__str__()}")
 
     finally:
         connection.close()
 
 
-def record_messages(host: str = 'broker.hivemq.com', port: str = 1883, topic: str = '/#'):
+def record_messages(
+        host: str = "broker.hivemq.com", port: str = 1883, topic: str = "/#"
+):
     """Main function to connect and set a callback function to execute on each message received.
 
     Start the MQTT client and add the option to call the function `on_message` in order to
@@ -68,7 +72,7 @@ def record_messages(host: str = 'broker.hivemq.com', port: str = 1883, topic: st
         topic: Topic to subscribe to.
 
     """
-    print(f'host: {host}, port: {port}, topic: {topic}')
+    print(f"host: {host}, port: {port}, topic: {topic}")
     client_name = str(uuid.uuid1())
 
     client = mqtt.Client(client_id=client_name)

@@ -8,6 +8,3 @@ def start_recording(self, host, port, topic):
     First version to check whether this is launched on celery.
     """
     record_messages(host, port, topic)
-
-
-

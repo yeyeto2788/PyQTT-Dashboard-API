@@ -10,7 +10,6 @@ from pyqtt_application.models.messages_models import Message
 
 
 class MessageController:
-
     @staticmethod
     def get_message(message_id: int) -> Message:
         """Retrieve a message by its id.
@@ -35,7 +34,9 @@ class MessageController:
         Returns:
             List with Message objects.
         """
-        messages = db.session.query(Message).order_by(Message.id.desc()).limit(amount).all()
+        messages = (
+            db.session.query(Message).order_by(Message.id.desc()).limit(amount).all()
+        )
 
         return messages
 
@@ -75,7 +76,9 @@ class MessageController:
             return HTTPResponse.http_404_not_found()
 
     @staticmethod
-    def add_message(message_id, topic, message, client_data=None, user_data=None) -> Message:
+    def add_message(
+            message_id, topic, message, client_data=None, user_data=None
+    ) -> Message:
         """
 
         Args:
@@ -94,7 +97,7 @@ class MessageController:
             topic=topic,
             message=message,
             client=client_data,
-            user_data=user_data
+            user_data=user_data,
         )
 
         db.session.add(message_obj)

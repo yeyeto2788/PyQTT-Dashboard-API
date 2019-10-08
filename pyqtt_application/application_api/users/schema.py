@@ -8,39 +8,24 @@ class UserSchema(BaseSchema):
     model_name = "User operations"
 
     model = USER_NS.model(
-        name='User',
+        name="User",
         model={
-            'email': fields.String(),
-            'username': fields.String(),
-            'pasword': fields.String(),
-            'public_id': fields.String(),
+            "email": fields.String(),
+            "username": fields.String(),
+            "pasword": fields.String(),
+            "public_id": fields.String(),
         },
     )
 
     post_params = {
-        'email': dict(
-            type=fields.String(),
-            help="User's email.",
-        ),
-        'username': dict(
-            type=fields.String(),
-            help="Username.",
-        ),
-        'password': dict(
-            type=fields.String(),
-            help="User's password.",
-        ),
+        "email": dict(type=fields.String(), help="User's email."),
+        "username": dict(type=fields.String(), help="Username."),
+        "password": dict(type=fields.String(), help="User's password."),
     }
 
     delete_params = {}
 
     put_params = {
-        'public_id': dict(
-            type=fields.String(),
-            help="User's' public id.",
-        ),
-        'password': dict(
-            type=fields.String(),
-            help="User's password.",
-        ),
+        "public_id": dict(type=fields.String(), help="User's' public id."),
+        "password": dict(type=fields.String(), help="User's password."),
     }

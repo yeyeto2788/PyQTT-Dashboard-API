@@ -16,20 +16,21 @@ class MessageResource(BaseResource):
     """
     Message operation
     """
+
     controller_type = MessageController()
     namespace = MESSAGE_NS
     schema = MessageSchema()
-    get_parser = schema.parser(method='get')
-    delete_parser = schema.parser(method='delete')
-    post_parser = schema.parser(method='post')
+    get_parser = schema.parser(method="get")
+    delete_parser = schema.parser(method="delete")
+    post_parser = schema.parser(method="post")
 
     @jwt_required()
     @namespace.doc(schema.model_name)
-    @namespace.doc(security='swagger_api_key')
+    @namespace.doc(security="swagger_api_key")
     @namespace.expect(get_parser, validate=True)
-    @namespace.response(code=200, description='Success.')
-    @namespace.response(code=404, description='No content response.')
-    @namespace.response(code=400, description='Unexpected error.')
+    @namespace.response(code=200, description="Success.")
+    @namespace.response(code=404, description="No content response.")
+    @namespace.response(code=400, description="Unexpected error.")
     def get(self):
         """Retrieve information about a given message by its id.
 
@@ -37,7 +38,7 @@ class MessageResource(BaseResource):
 
         try:
             arguments = request.args
-            message_id = arguments.get('message_id')
+            message_id = arguments.get("message_id")
 
             if int(message_id) == -1:
                 message_obj = self.controller_type.get_last_message()
@@ -51,7 +52,8 @@ class MessageResource(BaseResource):
 
             else:
                 response = HTTPResponse.http_404_not_found(
-                    message=f"Message with id {message_id} was not found.")
+                    message=f"Message with id {message_id} was not found."
+                )
 
         except Exception:
             response = HTTPResponse.http_500_unexpected()
@@ -60,17 +62,17 @@ class MessageResource(BaseResource):
 
     @jwt_required()
     @namespace.doc(schema.model_name)
-    @namespace.doc(security='swagger_api_key')
+    @namespace.doc(security="swagger_api_key")
     @namespace.expect(delete_parser, validate=True)
-    @namespace.response(code=200, description='Success')
-    @namespace.response(code=400, description='Unexpected error')
+    @namespace.response(code=200, description="Success")
+    @namespace.response(code=400, description="Unexpected error")
     def delete(self):
         """Delete a given message from its id.
 
         """
         try:
             arguments = request.args
-            message_id = arguments['message_id']
+            message_id = arguments["message_id"]
 
             operation_return = self.controller_type.delete_message(message_id)
 
@@ -88,10 +90,10 @@ class MessageResource(BaseResource):
 
     @jwt_required()
     @namespace.doc(schema.model_name)
-    @namespace.doc(security='swagger_api_key')
+    @namespace.doc(security="swagger_api_key")
     @namespace.expect(post_parser, validate=True)
-    @namespace.response(code=200, description='Success')
-    @namespace.response(code=400, description='Unexpected error')
+    @namespace.response(code=200, description="Success")
+    @namespace.response(code=400, description="Unexpected error")
     def post(self):
         """Add a message to the database.
 
@@ -99,15 +101,13 @@ class MessageResource(BaseResource):
 
         arguments = request.args
 
-        message_id = arguments['id']
-        topic = arguments['topic']
-        message = arguments['message']
+        message_id = arguments["id"]
+        topic = arguments["topic"]
+        message = arguments["message"]
 
         try:
             message_obj = self.controller_type.add_message(
-                message_id=message_id,
-                topic=topic,
-                message=message
+                message_id=message_id, topic=topic, message=message
             )
 
             return self._ok_response(message_obj, self._model)

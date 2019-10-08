@@ -9,19 +9,20 @@ class BaseSchema:
     """
     Class Base for all schemas
     """
-    model_name: str = 'Model name'
+
+    model_name: str = "Model name"
     model = dict()
 
-    error_name: str = 'Errors'
+    error_name: str = "Errors"
     error_model: dict = {
-        'type': fields.String,
-        'error': fields.String,
-        'stack_trace': fields.String,
+        "type": fields.String,
+        "error": fields.String,
+        "stack_trace": fields.String,
     }
 
     base_params = dict()
 
-    def parser(self, method: str = 'get') -> reqparse.RequestParser:
+    def parser(self, method: str = "get") -> reqparse.RequestParser:
         """
         This method retrieve the query string arguments sent to the endpoint
 
@@ -35,7 +36,7 @@ class BaseSchema:
         method = method.lower()
 
         base_params = dict(self.base_params)
-        method_params = getattr(self, f'{method}_params', {})
+        method_params = getattr(self, f"{method}_params", {})
         params_names = method_params.keys() | base_params.keys()
 
         for name in params_names:

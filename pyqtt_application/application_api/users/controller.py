@@ -9,7 +9,6 @@ from pyqtt_application.models.users_models import User
 
 
 class UserController:
-
     @staticmethod
     def get_user(public_id):
 
@@ -46,7 +45,7 @@ class UserController:
                 email=email,
                 username=username,
                 password=password,
-                registered_on=datetime.datetime.utcnow()
+                registered_on=datetime.datetime.utcnow(),
             )
 
             db.session.add(user_object)

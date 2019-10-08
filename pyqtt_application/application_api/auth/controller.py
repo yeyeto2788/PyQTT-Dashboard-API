@@ -57,9 +57,9 @@ class AuthController:
 
         try:
             # fetch the user data
-            user = User.query.filter_by(email=data.get('email')).first()
+            user = User.query.filter_by(email=data.get("email")).first()
 
-            if user and user.check_password(data.get('password')):
+            if user and user.check_password(data.get("password")):
                 auth_token = User.encode_auth_token(user.public_id)
 
                 if auth_token:
@@ -90,7 +90,7 @@ class AuthController:
             auth_token = data.split(" ")[1]
 
         else:
-            auth_token = ''
+            auth_token = ""
 
         if auth_token:
 
@@ -127,7 +127,7 @@ class AuthController:
             User object or flask.Response.
         """
         # get the auth token
-        auth_token = data.headers.get('Authorization')
+        auth_token = data.headers.get("Authorization")
 
         if auth_token:
 
@@ -147,4 +147,6 @@ class AuthController:
 
         else:
 
-            return HTTPResponse.http_401_unauthorized(message='Provide a valid auth token.')
+            return HTTPResponse.http_401_unauthorized(
+                message="Provide a valid auth token."
+            )

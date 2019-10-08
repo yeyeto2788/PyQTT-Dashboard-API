@@ -65,11 +65,7 @@ class BaseResource(Resource):
 
         exc_type, exc_value, exc_traceback = sys.exc_info()
         trace = traceback.format_exception(exc_type, exc_value, exc_traceback)
-        res = dict(
-            type=repr(exc_type),
-            error=repr(exc_value),
-            stack_trace=repr(trace),
-        )
+        res = dict(type=repr(exc_type), error=repr(exc_value), stack_trace=repr(trace))
 
         return jsonify(res)
 
@@ -99,7 +95,7 @@ class BaseResource(Resource):
             the HTTP code which is 204.
         """
 
-        return '', 204
+        return "", 204
 
     @staticmethod
     def _not_found_response(item_name=None, msg=None):
@@ -116,6 +112,6 @@ class BaseResource(Resource):
             tuple: a tuple that contains a message and the HTTP code which is 404.
         """
 
-        item_name = item_name or 'Item'
-        msg = msg or f'{item_name} requested was not found'
+        item_name = item_name or "Item"
+        msg = msg or f"{item_name} requested was not found"
         return msg, 404

@@ -13,6 +13,7 @@ class Message(db.Model):
     Message representation on database and useful methods for
     message handling operations.
     """
+
     __tablename__ = "message"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -23,9 +24,8 @@ class Message(db.Model):
     user_data = db.Column(db.String)
 
     def __repr__(self):
-        return '<{class_name}:  {message}>'.format(
-            class_name=self.__class__.__name__,
-            message=self.message
+        return "<{class_name}:  {message}>".format(
+            class_name=self.__class__.__name__, message=self.message
         )
 
     def serialize(self) -> OrderedDict:
@@ -35,12 +35,12 @@ class Message(db.Model):
             OrderedDict
         """
         serialized = OrderedDict()
-        serialized['id'] = self.id
-        serialized['topic'] = self.topic
-        serialized['message'] = self.message
-        serialized['datetime'] = self.datetime
-        serialized['timestamp'] = datetime.timestamp(self.datetime)
-        serialized['client'] = self.client
-        serialized['user_data'] = self.user_data
+        serialized["id"] = self.id
+        serialized["topic"] = self.topic
+        serialized["message"] = self.message
+        serialized["datetime"] = self.datetime
+        serialized["timestamp"] = datetime.timestamp(self.datetime)
+        serialized["client"] = self.client
+        serialized["user_data"] = self.user_data
 
         return serialized
