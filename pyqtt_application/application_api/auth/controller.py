@@ -142,7 +142,9 @@ class AuthController:
             else:
 
                 if not isinstance(public_id, str):
-                    user_object = User.query.filter_by(public_id=public_id).first()
+                    user_object = User.query.filter_by(
+                        public_id=public_id
+                    ).first()
                     return user_object
 
         else:

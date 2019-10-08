@@ -21,7 +21,9 @@ JWT_ALGORITHM = "HS256"
 
 # Celery configuration.
 CELERY_BROKER_URL = os.getenv("CELERY_URL", "redis://localhost:6379/0")
-CELERY_RESULT_BACKEND = os.getenv("CELERY_BACKEND_URL", "redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = os.getenv(
+    "CELERY_BACKEND_URL", "redis://localhost:6379/0"
+)
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TASK_SERIALIZER = "json"
 CELERY_IMPORTS = [

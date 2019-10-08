@@ -55,7 +55,9 @@ class UserController:
 
         else:
 
-            return HTTPResponse.http_409_already_exists(item_name=str(user_object))
+            return HTTPResponse.http_409_already_exists(
+                item_name=str(user_object)
+            )
 
     @staticmethod
     def get_all_users() -> list:

@@ -65,7 +65,9 @@ class BaseResource(Resource):
 
         exc_type, exc_value, exc_traceback = sys.exc_info()
         trace = traceback.format_exception(exc_type, exc_value, exc_traceback)
-        res = dict(type=repr(exc_type), error=repr(exc_value), stack_trace=repr(trace))
+        res = dict(
+            type=repr(exc_type), error=repr(exc_value), stack_trace=repr(trace)
+        )
 
         return jsonify(res)
 

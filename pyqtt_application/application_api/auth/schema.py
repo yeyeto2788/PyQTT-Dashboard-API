@@ -12,6 +12,7 @@ class AuthSchema(BaseSchema):
     post_params = {
         "email": dict(type=fields.String(required=True), help="User's email."),
         "password": dict(
-            type=fields.String(required=True, format="password"), help="User password."
+            type=fields.String(required=True, format="password"),
+            help="User password.",
         ),
     }

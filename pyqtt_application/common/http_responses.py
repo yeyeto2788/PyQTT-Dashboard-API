@@ -110,4 +110,6 @@ class HTTPResponse:
         code = 500
         status = "Fail."
 
-        return HTTPResponse.http_response(errors=error, code=code, status=status)
+        return HTTPResponse.http_response(
+            errors=error, code=code, status=status
+        )

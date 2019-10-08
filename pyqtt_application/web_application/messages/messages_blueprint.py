@@ -17,7 +17,9 @@ def root():
     """
 
     """
-    messages = db.session.query(Message).order_by(Message.id.desc()).limit(100).all()
+    messages = (
+        db.session.query(Message).order_by(Message.id.desc()).limit(100).all()
+    )
 
     serialized_messages = dict()
 

@@ -35,11 +35,15 @@ class MessageSchema(BaseSchema):
     }
 
     delete_params = {
-        "message_id": dict(type=fields.Integer(), help="Id of the message to delete.")
+        "message_id": dict(
+            type=fields.Integer(), help="Id of the message to delete."
+        )
     }
 
     post_params = {
-        "id": dict(type=fields.Integer(), help="Id of the message to be added."),
+        "id": dict(
+            type=fields.Integer(), help="Id of the message to be added."
+        ),
         "topic": dict(type=fields.String(), help="Topic to be added."),
         "message": dict(type=fields.String(), help="Message."),
     }

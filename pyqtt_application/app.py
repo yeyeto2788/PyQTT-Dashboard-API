@@ -10,8 +10,12 @@ from pyqtt_application.application_api.settings.routes import SETTINGS_NS
 from pyqtt_application.application_api.users.routes import USER_NS
 from pyqtt_application.extensions import db, api, jwt, celery
 from pyqtt_application.models.users_models import User
-from pyqtt_application.web_application.messages.messages_blueprint import message_bp
-from pyqtt_application.web_application.settings.setting_blueprint import settings_bp
+from pyqtt_application.web_application.messages.messages_blueprint import (
+    message_bp,
+)
+from pyqtt_application.web_application.settings.setting_blueprint import (
+    settings_bp,
+)
 
 
 def authenticate(username, password):
@@ -26,7 +30,9 @@ def authenticate(username, password):
     """
     user = User.query.filter_by(username=username).first()
 
-    if user and safe_str_cmp(user.password.encode("utf-8"), password.encode("utf-8")):
+    if user and safe_str_cmp(
+        user.password.encode("utf-8"), password.encode("utf-8")
+    ):
 
         return user
 

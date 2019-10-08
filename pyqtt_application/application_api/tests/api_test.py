@@ -18,7 +18,7 @@ class TestAppEndPoints(unittest.TestCase):
 
         logging.basicConfig(level=logging.INFO)
         # Create dummy database
-        db_file = open('./pyqtt.db', 'w')
+        db_file = open("./pyqtt.db", "w")
         db_file.close()
 
     def setUp(self):
@@ -26,13 +26,17 @@ class TestAppEndPoints(unittest.TestCase):
         Test setUp.
         """
         app = create_app()
-        app.config['TESTING'] = True
-        app.config['WTF_CSRF_ENABLED'] = False
-        app.config['DEBUG'] = False
+        app.config["TESTING"] = True
+        app.config["WTF_CSRF_ENABLED"] = False
+        app.config["DEBUG"] = False
         self.app_views = [
-            rule.__str__() for rule in app.url_map._rules if 'GET' in rule.methods and (
-                    not rule.__str__().endswith(
-                        '/<int:int_pages>') and not rule.__str__().endswith('/<path:filename>'))
+            rule.__str__()
+            for rule in app.url_map._rules
+            if "GET" in rule.methods
+            and (
+                not rule.__str__().endswith("/<int:int_pages>")
+                and not rule.__str__().endswith("/<path:filename>")
+            )
         ]
 
         self.app = app.test_client()
@@ -42,9 +46,12 @@ class TestAppEndPoints(unittest.TestCase):
         Check whether the root path is enable.
 
         """
-        response = self.app.get('/', follow_redirects=True)
-        self.assertEqual(response.status_code, 404, msg="Expected: {}, Obtained: {}".format(
-            404, response.status_code))
+        response = self.app.get("/", follow_redirects=True)
+        self.assertEqual(
+            response.status_code,
+            404,
+            msg="Expected: {}, Obtained: {}".format(404, response.status_code),
+        )
 
     # def test_get_routes(self):
     #     """
@@ -66,4 +73,4 @@ class TestAppEndPoints(unittest.TestCase):
         """
         Global tearDown.
         """
-        os.remove('./pyqtt.db')
+        os.remove("./pyqtt.db")

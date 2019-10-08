@@ -48,14 +48,16 @@ def on_message(client: mqtt.Client, userdata, message):
         connection.execute(sql_query)
 
     except Exception as e:
-        print(f"An error occurred trying to add a message to db: {e.__str__()}")
+        print(
+            f"An error occurred trying to add a message to db: {e.__str__()}"
+        )
 
     finally:
         connection.close()
 
 
 def record_messages(
-        host: str = "broker.hivemq.com", port: str = 1883, topic: str = "/#"
+    host: str = "broker.hivemq.com", port: str = 1883, topic: str = "/#"
 ):
     """Main function to connect and set a callback function to execute on each message received.
 

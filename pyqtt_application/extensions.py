@@ -20,7 +20,11 @@ celery = Celery(
 )
 
 authorizations = {
-    "swagger_api_key": {"type": "apiKey", "in": "header", "name": "authorization"}
+    "swagger_api_key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "authorization",
+    }
 }
 
 # API basic setup.

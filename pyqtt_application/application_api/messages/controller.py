@@ -35,7 +35,10 @@ class MessageController:
             List with Message objects.
         """
         messages = (
-            db.session.query(Message).order_by(Message.id.desc()).limit(amount).all()
+            db.session.query(Message)
+            .order_by(Message.id.desc())
+            .limit(amount)
+            .all()
         )
 
         return messages
@@ -77,7 +80,7 @@ class MessageController:
 
     @staticmethod
     def add_message(
-            message_id, topic, message, client_data=None, user_data=None
+        message_id, topic, message, client_data=None, user_data=None
     ) -> Message:
         """
 

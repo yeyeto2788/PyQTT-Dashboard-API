@@ -44,9 +44,9 @@ class User(db.Model):
             password:
 
         """
-        self.password_hash = flask_bcrypt.generate_password_hash(password).decode(
-            "utf-8"
-        )
+        self.password_hash = flask_bcrypt.generate_password_hash(
+            password
+        ).decode("utf-8")
 
     def check_password(self, password):
         return flask_bcrypt.check_password_hash(self.password_hash, password)
@@ -64,8 +64,9 @@ class User(db.Model):
         try:
             payload = {
                 "exp": datetime.datetime.utcnow()
-                       + datetime.timedelta(days=1, seconds=5),
-                "iat": datetime.datetime.utcnow() - datetime.timedelta(seconds=5),
+                + datetime.timedelta(days=1, seconds=5),
+                "iat": datetime.datetime.utcnow()
+                - datetime.timedelta(seconds=5),
                 "nbf": datetime.datetime.utcnow(),
                 "public_id": user_id,
             }
@@ -103,5 +104,7 @@ class User(db.Model):
 
     def __repr__(self):
         return "<{class_name}: '{user}':'{id}'>".format(
-            class_name=self.__class__.__name__, user=self.username, id=self.public_id
+            class_name=self.__class__.__name__,
+            user=self.username,
+            id=self.public_id,
         )

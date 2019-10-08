@@ -18,6 +18,7 @@ class BaseModel(BASE):
 
     def __repr__(self):
         row_dict = {
-            col.name: str(getattr(self, col.name)) for col in self.__table__.columns
+            col.name: str(getattr(self, col.name))
+            for col in self.__table__.columns
         }
         return json.dumps(row_dict)

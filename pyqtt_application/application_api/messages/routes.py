@@ -4,7 +4,9 @@ Routes/endpoints for the messages namespace.
 from flask import request, Response
 
 from pyqtt_application.application_api.messages import MESSAGE_NS
-from pyqtt_application.application_api.messages.controller import MessageController
+from pyqtt_application.application_api.messages.controller import (
+    MessageController,
+)
 from pyqtt_application.application_api.messages.schema import MessageSchema
 from pyqtt_application.common.base_routes import BaseResource
 from pyqtt_application.common.http_responses import HTTPResponse
