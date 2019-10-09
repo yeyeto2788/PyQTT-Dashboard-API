@@ -7,3 +7,6 @@ omit =
     tests/*
     demo/*
     */__init__.py
+    *schema.py
+    *_models.py
+    app.py
