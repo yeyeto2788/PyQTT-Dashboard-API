@@ -22,11 +22,11 @@ There are several way to run the application depending on how you want to run th
 
 ### Running it on a local machine
 
-- Clone this repository.
+- **Clone this repository.**
 
   `git clone https://github.com/yeyeto2788/PyQTT-Dashboard-API.git`
     
-- Create a virtual environment.
+- **Create a virtual environment.**
 
   `python3 -m virtualenv venv`
     
