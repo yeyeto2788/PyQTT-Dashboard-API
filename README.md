@@ -30,17 +30,17 @@ There are several way to run the application depending on how you want to run th
 
   `python3 -m virtualenv venv`
     
-- Activate the virtual environment.
+- **Activate the virtual environment.**
 
   - Linux: `source ./bin/activate` 
   
   - Windows: `.\venv\Scripts\activate`
     
-- Install required dependencies.
+- **Install required dependencies.**
 
   `pip install -r requirements.txt`
 
-- Start celery
+- **Start celery**
 
   - Linux:
     
