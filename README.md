@@ -71,7 +71,7 @@ There are several way to run the application depending on how you want to run th
 
 ## Contributing
 If you're interested on contributing on this project you're more that welcome as
- long as you follow our [contributing](./CONTRIBUTING.md) guide.
+ long as you follow our [CONTRIBUTING](./CONTRIBUTING.md) guide.
 
 ## See any issue?
 Please, if you see any issue on the app or you want us to implement a new
